@@ -1349,9 +1349,13 @@ function renderLista() {
   }
   const porData = {};
   jogos.forEach(j => {
-    const key = j.datahora_utc
-      ? new Date(j.datahora_utc).toISOString().slice(0,10)
-      : (j.data||'');
+    let key;
+    if (j.datahora_utc) {
+      const d = new Date(j.datahora_utc);
+      key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    } else {
+      key = j.data || '';
+    }
     if (!porData[key]) porData[key] = [];
     porData[key].push(j);
   });
