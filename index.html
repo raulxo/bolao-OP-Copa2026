@@ -2577,25 +2577,29 @@ function renderRanking(r) {
 // AUDITORIA
 // ════════════════════════════════════════
 async function carregarAuditoria() {
-  // reset do cache de pontos do dia (novo dia = novos dados)
   const pdLista = document.getElementById('pdlista');
   if (pdLista) pdLista.dataset.loaded = '';
 
-  const d = new Date();
-  const hoje = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-  console.log('Data enviada:', hoje);
+  // Calcula início e fim do dia local em UTC
+  const agora = new Date();
+  const inicioDiaLocal = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate(), 0, 0, 0);
+  const fimDiaLocal    = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate(), 23, 59, 59);
+  const utcInicio = inicioDiaLocal.toISOString(); // ex: "2026-06-19T23:00:00.000Z" (Lisboa)
+  const utcFim    = fimDiaLocal.toISOString();    // ex: "2026-06-20T22:59:59.000Z" (Lisboa)
+
+  // Para o label de data continua a usar a data local
+  const hoje = `${agora.getFullYear()}-${String(agora.getMonth()+1).padStart(2,'0')}-${String(agora.getDate()).padStart(2,'0')}`;
   document.getElementById('adlabel').textContent = fmtData(hoje);
+
   load(true);
   try {
-    const d = await apiGet({ acao: 'palpites_dia', data: hoje });
-    console.log('palpites_dia', d);
+    const d = await apiGet({ acao: 'palpites_dia', utc_inicio: utcInicio, utc_fim: utcFim });
     if (d.ok) renderAuditoria(d.jogos || []);
   } catch(e) { toast('Erro.', true); }
   load(false);
-
-  // garante que subtab palpites está activa ao entrar
   audTab('palpites');
 }
+
 
 function renderAuditoria(jogos) {
   const l=document.getElementById('alista');
