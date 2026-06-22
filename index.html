@@ -1226,6 +1226,27 @@ function calcPts(ga_r,gb_r,ga_p,gb_p) {
   return 0;
 }
 
+function fasePorData() {
+  if (!JOGOS.length) return null;
+  const hoje = new Date();
+  const hojeStr = `${hoje.getFullYear()}-${String(hoje.getMonth()+1).padStart(2,'0')}-${String(hoje.getDate()).padStart(2,'0')}`;
+
+  // Agrupar datas min/max por fase
+  const ranges = {};
+  JOGOS.forEach(j => {
+    const d = j.datahora_utc ? utcDate(j.datahora_utc) : (j.data ? new Date(j.data+'T12:00:00') : null);
+    if (!d) return;
+    const ds = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    if (!ranges[j.fase]) ranges[j.fase] = { min: ds, max: ds };
+    if (ds < ranges[j.fase].min) ranges[j.fase].min = ds;
+    if (ds > ranges[j.fase].max) ranges[j.fase].max = ds;
+  });
+
+  // Fase activa (hoje dentro da janela) ou próxima futura
+  const fasesPorInicio = Object.entries(ranges).sort((a,b) => a[1].min.localeCompare(b[1].min));
+  return (fasesPorInicio.find(([,r]) => hojeStr <= r.max) || fasesPorInicio.at(-1))?.[0] || null;
+}
+
 // ════════════════════════════════════════
 // AUTH
 // ════════════════════════════════════════
@@ -1327,7 +1348,7 @@ async function carregarJogos() {
 
 function renderJogos() {
   const fases = [...new Set(JOGOS.map(j=>j.fase))];
-  if (!FA || !fases.includes(FA)) FA = fases[0];
+  if (!FA || !fases.includes(FA)) FA = fasesPorData() || fases[0];
   const fps = document.getElementById('fps');
   fps.innerHTML = '';
   fases.forEach(f => {
