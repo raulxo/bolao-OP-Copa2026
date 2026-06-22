@@ -1467,7 +1467,7 @@ function cardJogo(j) {
     </div>
     <div class="jc-foot">
       <span class="sv-tag ${p!=null?'on':''}" id="tag-${j.id}">✓ Salvo</span>
-      <button class="btn-sv ${p==null&&aberto?'novo':''}" id="btn-${j.id}" onclick="salvar('${j.id}')"
+      <button class="btn-sv ${p==null&&aberto&&!enc?'novo':''}" id="btn-${j.id}" onclick="salvar('${j.id}')"
         ${(!aberto||enc)?'disabled':''}>${btnT}</button>
     </div>`;
   return el;
@@ -1489,7 +1489,7 @@ async function salvar(id) {
     if (d.ok) {
       MP[id] = {gols_a:ga, gols_b:gb, pts:null};
       document.getElementById('tag-'+id)?.classList.add('on');
-      btn.textContent='Atualizar'; btn.disabled=false;
+      btn.textContent='Atualizar'; btn.disabled=false; btn.classList.remove('novo');
       toast(d.msg||'Palpite salvo!');
     } else { toast(d.msg||'Erro.',true); btn.textContent='Salvar'; btn.disabled=false; }
   } catch(e) { toast('Erro de conexão.',true); btn.textContent='Salvar'; btn.disabled=false; }
