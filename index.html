@@ -1350,7 +1350,7 @@ async function carregarJogos() {
 
 function renderJogos() {
   const fases = [...new Set(JOGOS.map(j=>j.fase))];
-  if (!FA || !fases.includes(FA)) FA = fasesPorData() || fases[0];
+  if (!FA || !fases.includes(FA)) FA = fasePorData() || fases[0];
   const fps = document.getElementById('fps');
   fps.innerHTML = '';
   fases.forEach(f => {
