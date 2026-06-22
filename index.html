@@ -258,6 +258,8 @@ img{display:inline-block;vertical-align:middle}
 .sv-tag.on{opacity:1}
 .btn-sv{padding:.38rem 1.05rem;background:var(--g);color:#fff;border:none;border-radius:6px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .15s}
 .btn-sv:hover{background:var(--g2)}
+.btn-sv.novo{background:#c8900a;color:#fff}
+.btn-sv.novo:hover{background:#e0a010}
 .btn-sv:disabled{background:var(--card2);color:var(--muted);cursor:not-allowed;border:1px solid var(--border)}
 
 /* ═══════════════════════════════════════
@@ -1465,7 +1467,7 @@ function cardJogo(j) {
     </div>
     <div class="jc-foot">
       <span class="sv-tag ${p!=null?'on':''}" id="tag-${j.id}">✓ Salvo</span>
-      <button class="btn-sv" id="btn-${j.id}" onclick="salvar('${j.id}')"
+      <button class="btn-sv ${p==null&&aberto?'novo':''}" id="btn-${j.id}"
         ${(!aberto||enc)?'disabled':''}>${btnT}</button>
     </div>`;
   return el;
