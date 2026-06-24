@@ -1589,8 +1589,9 @@ async function renderPM() {
         const campeao = d.Campeao || '';
         if (campeao) apiB['FINAL'] = campeao;
         const artApi = d.Artilheiro || '';
+        const grupos  = parse(d.Grupos); 
         if (Object.keys(apiB).length) {
-          pmData = { bracket: apiB, artilheiro: artApi };
+          pmData = { bracket: apiB, artilheiro: artApi, grupos: grupos };
           // Actualiza localStorage com dados frescos da API
           try { localStorage.setItem('pm_data_'+USER.id, JSON.stringify(pmData)); } catch(e){}
         }
