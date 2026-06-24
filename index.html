@@ -1231,7 +1231,7 @@ function calcPts(ga_r,gb_r,ga_p,gb_p) {
 function fasePorData() {
   if (!JOGOS.length) return null;
   const hoje = new Date();
-  const hojeStr = `${hoje.getFullYear()}-${String(hoje.getMonth()+1).padStart(2,'0')}-${String(hoje.getDate()).padStart(2,'0')}`;
+  const hojeStr = hoje.toLocaleDateString('sv'); // formato YYYY-MM-DD garantido, fuso local;
 
   // Agrupar datas min/max por fase
   const ranges = {};
