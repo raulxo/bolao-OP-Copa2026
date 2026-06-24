@@ -1647,9 +1647,10 @@ async function renderPM() {
           return `<span style="display:inline-flex;align-items:center;gap:.3rem;background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:.22rem .5rem;font-size:11px;font-weight:600;margin:2px">${fl(t,16,11)} ${t}</span>`;
         }).filter(Boolean).join('');
         let html = '';
-        if (chips1) html += `<div class="resumo-hdr">1ºs dos Grupos</div><div style="padding:.4rem .65rem .5rem;display:flex;flex-wrap:wrap">${chips1}</div>`;
-        if (chips2) html += `<div class="resumo-hdr">2ºs dos Grupos</div><div style="padding:.4rem .65rem .5rem;display:flex;flex-wrap:wrap">${chips2}</div>`;
-        if (chips3) html += `<div class="resumo-hdr">3ºs dos Grupos</div><div style="padding:.4rem .65rem .5rem;display:flex;flex-wrap:wrap">${chips3}</div>`;
+        html += `<p style="font-size:12px;color:var(--muted);margin:.5rem .65rem .25rem">💡 1 ponto por cada seleção que avança da fase de grupos, independente de ser 1º, 2º ou 3º.</p>`;
+        if (chips1) html += `<div class="resumo-hdr">Meus 1ºs dos Grupos</div><div style="padding:.4rem .65rem .5rem;display:flex;flex-wrap:wrap">${chips1}</div>`;
+        if (chips2) html += `<div class="resumo-hdr">Meus 2ºs dos Grupos</div><div style="padding:.4rem .65rem .5rem;display:flex;flex-wrap:wrap">${chips2}</div>`;
+        if (chips3) html += `<div class="resumo-hdr">Meus 3ºs dos Grupos</div><div style="padding:.4rem .65rem .5rem;display:flex;flex-wrap:wrap">${chips3}</div>`;
         return html;
     })() : '';
     
