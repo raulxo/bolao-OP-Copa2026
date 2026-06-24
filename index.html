@@ -1620,10 +1620,10 @@ async function renderPM() {
     }
 
     const phases = B2 ? [
-      {lbl:'16 Avos de Final (Passam pra Oitavas)', ids:['R32_1','R32_2','R32_3','R32_4','R32_5','R32_6','R32_7','R32_8','R32_9','R32_10','R32_11','R32_12','R32_13','R32_14','R32_15','R32_16']},
-      {lbl:'Oitavas de Final (Passam pra Quartas)',  ids:['R16_1','R16_2','R16_3','R16_4','R16_5','R16_6','R16_7','R16_8']},
-      {lbl:'Quartas de Final (Passam pra Semi)',  ids:['QF_1','QF_2','QF_3','QF_4']},
-      {lbl:'Semifinal (passam pra Final)',         ids:['SF_1','SF_2']},
+      {lbl:'Vencedores 16 Avos de Final (Passam → Oitavas) · 2pts cada', ids:['R32_1','R32_2','R32_3','R32_4','R32_5','R32_6','R32_7','R32_8','R32_9','R32_10','R32_11','R32_12','R32_13','R32_14','R32_15','R32_16']},
+      {lbl:'Vencedores Oitavas de Final (Passam → Quartas) · 4pts cada',  ids:['R16_1','R16_2','R16_3','R16_4','R16_5','R16_6','R16_7','R16_8']},
+      {lbl:'Vencedores Quartas de Final (Passam → Semi) · 6pts cada',  ids:['QF_1','QF_2','QF_3','QF_4']},
+      {lbl:'Vencedores Semifinal (Passam → Final) · 8pts cada',         ids:['SF_1','SF_2']},
     ] : [];
 
     // Secção dos classificados dos grupos
@@ -1647,10 +1647,10 @@ async function renderPM() {
           return `<span style="display:inline-flex;align-items:center;gap:.3rem;background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:.22rem .5rem;font-size:11px;font-weight:600;margin:2px">${fl(t,16,11)} ${t}</span>`;
         }).filter(Boolean).join('');
         let html = '';
-        html += `<p style="font-size:12px;color:var(--muted);margin:.5rem .65rem .25rem">💡 1 ponto por cada seleção que avança da fase de grupos, independente de ser 1º, 2º ou 3º.</p>`;
         if (chips1) html += `<div class="resumo-hdr">Meus 1ºs dos Grupos</div><div style="padding:.4rem .65rem .5rem;display:flex;flex-wrap:wrap">${chips1}</div>`;
         if (chips2) html += `<div class="resumo-hdr">Meus 2ºs dos Grupos</div><div style="padding:.4rem .65rem .5rem;display:flex;flex-wrap:wrap">${chips2}</div>`;
         if (chips3) html += `<div class="resumo-hdr">Meus 3ºs dos Grupos</div><div style="padding:.4rem .65rem .5rem;display:flex;flex-wrap:wrap">${chips3}</div>`;
+        html += `<p style="font-size:12px;color:var(--muted);margin:.5rem .65rem .25rem">💡 1 ponto por cada seleção que avança da fase de grupos, independente de ser 1º, 2º ou 3º.</p>`; 
         return html;
     })() : '';
     
