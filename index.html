@@ -1377,7 +1377,7 @@ function renderLista() {
     porData[key].push(j);
   });
   lista.innerHTML = '';
-  Object.entries(porData).forEach(([data,js]) => {
+  Object.entries(porData).sort(([a],[b])=>a.localeCompare(b)).forEach(([data,js]) => {
     const lbl = document.createElement('p');
     lbl.className = 'sl';
     lbl.textContent = fmtData(data);
