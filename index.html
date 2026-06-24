@@ -1627,35 +1627,35 @@ async function renderPM() {
 
     // Secção dos classificados dos grupos
     const GKEYS_ALL = ['A','B','C','D','E','F','G','H','I','J','K','L'];
-    const groupSection = gord ? (() => {
-      const chips1 = GKEYS_ALL.map(g => {
-        const t = gord[g]&&gord[g][1];
-        if (!t) return '';
-        return `<span style="display:inline-flex;align-items:center;gap:.3rem;background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:.22rem .5rem;font-size:11px;font-weight:600;margin:2px">${fl(t,16,11)} ${t}</span>`;
-      }).filter(Boolean).join('');
-      const chips2 = GKEYS_ALL.map(g => {
-        const t = gord[g]&&gord[g][2];
-        if (!t) return '';
-        return `<span style="display:inline-flex;align-items:center;gap:.3rem;background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:.22rem .5rem;font-size:11px;font-weight:600;margin:2px">${fl(t,16,11)} ${t}</span>`;
-      }).filter(Boolean).join('');
-      const chips3 = thirds.length ? thirds.map(g => {
-        const t = gord[g]&&gord[g][3];
-        if (!t) return '';
-        return `<span style="display:inline-flex;align-items:center;gap:.3rem;background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:.22rem .5rem;font-size:11px;font-weight:600;margin:2px">${fl(t,16,11)} ${t}</span>`;
-      }).filter(Boolean).join('') : '';
-      let html = '';
-      if (chips1) html += `<div class="resumo-hdr">1ºs dos Grupos</div><div style="padding:.4rem .65rem .5rem;display:flex;flex-wrap:wrap">${chips1}</div>`;
-      if (chips2) html += `<div class="resumo-hdr">2ºs dos Grupos</div><div style="padding:.4rem .65rem .5rem;display:flex;flex-wrap:wrap">${chips2}</div>`;
-      if (chips3) html += `<div class="resumo-hdr">3ºs Classificados</div><div style="padding:.4rem .65rem .5rem;display:flex;flex-wrap:wrap">${chips3}</div>`;
-      return html;
+    const gData = (pmData && pmData.grupos) ? pmData.grupos : (gord || null);
+      
+    const groupSection = gData ? (() => {
+        const chips1 = GKEYS_ALL.map(g => {
+          const t = gData[g]&&gData[g]['1'];
+          if (!t) return '';
+          return `<span style="display:inline-flex;align-items:center;gap:.3rem;background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:.22rem .5rem;font-size:11px;font-weight:600;margin:2px">${fl(t,16,11)} ${t}</span>`;
+        }).filter(Boolean).join('');
+        const chips2 = GKEYS_ALL.map(g => {
+          const t = gData[g]&&gData[g]['2'];
+          if (!t) return '';
+          return `<span style="display:inline-flex;align-items:center;gap:.3rem;background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:.22rem .5rem;font-size:11px;font-weight:600;margin:2px">${fl(t,16,11)} ${t}</span>`;
+        }).filter(Boolean).join('');
+        const chips3 = GKEYS_ALL.map(g => {
+          const t = gData[g]&&gData[g]['3'];
+          if (!t) return '';
+          return `<span style="display:inline-flex;align-items:center;gap:.3rem;background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:.22rem .5rem;font-size:11px;font-weight:600;margin:2px">${fl(t,16,11)} ${t}</span>`;
+        }).filter(Boolean).join('');
+        let html = '';
+        if (chips1) html += `<div class="resumo-hdr">1ºs dos Grupos</div><div style="padding:.4rem .65rem .5rem;display:flex;flex-wrap:wrap">${chips1}</div>`;
+        if (chips2) html += `<div class="resumo-hdr">2ºs dos Grupos</div><div style="padding:.4rem .65rem .5rem;display:flex;flex-wrap:wrap">${chips2}</div>`;
+        if (chips3) html += `<div class="resumo-hdr">3ºs dos Grupos</div><div style="padding:.4rem .65rem .5rem;display:flex;flex-wrap:wrap">${chips3}</div>`;
+        return html;
     })() : '';
     
     const bracketSection = phases.map(f => {
       const chips = phaseChips(f.ids);
       return chips ? `<div class="resumo-hdr">${f.lbl}</div><div style="padding:.4rem .65rem .5rem;display:flex;flex-wrap:wrap">${chips}</div>` : '';
     }).filter(Boolean).join('');
-
-
 
     wrap.innerHTML = `
       <div class="pm-sent">
