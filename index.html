@@ -1229,24 +1229,18 @@ function calcPts(ga_r,gb_r,ga_p,gb_p) {
 }
 
 function fasePorData() {
-  if (!JOGOS.length) return null;
-  const hoje = new Date();
-  const hojeStr = hoje.toLocaleDateString('sv'); // formato YYYY-MM-DD garantido, fuso local;
-
-  // Agrupar datas min/max por fase
-  const ranges = {};
-  JOGOS.forEach(j => {
-    const d = j.datahora_utc ? utcDate(j.datahora_utc) : (j.data ? new Date(j.data+'T12:00:00') : null);
-    if (!d) return;
-    const ds = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    if (!ranges[j.fase]) ranges[j.fase] = { min: ds, max: ds };
-    if (ds < ranges[j.fase].min) ranges[j.fase].min = ds;
-    if (ds > ranges[j.fase].max) ranges[j.fase].max = ds;
-  });
-
-  // Fase activa (hoje dentro da janela) ou próxima futura
-  const fasesPorInicio = Object.entries(ranges).sort((a,b) => a[1].min.localeCompare(b[1].min));
-  return (fasesPorInicio.find(([,r]) => hojeStr <= r.max) || fasesPorInicio.at(-1))?.[0] || null;
+  const hojeStr = new Date().toLocaleDateString('sv');
+  const ranges = [
+    ['Grupos_R1', '2026-06-11', '2026-06-17'],
+    ['Grupos_R2', '2026-06-18', '2026-06-23'],
+    ['Grupos_R3', '2026-06-24', '2026-06-27'],
+    ['16avos',    '2026-06-28', '2026-07-03'],
+    ['Oitavas',   '2026-07-04', '2026-07-07'],
+    ['Quartas',   '2026-07-09', '2026-07-11'],
+    ['Semi',      '2026-07-14', '2026-07-15'],
+    ['Final',     '2026-07-19', '2026-07-19'],
+  ];
+  return (ranges.find(([,min,max]) => hojeStr >= min && hojeStr <= max) || ranges.at(-1))?.[0];
 }
 
 // ════════════════════════════════════════
