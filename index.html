@@ -2622,7 +2622,11 @@ function renderAuditoria(jogos) {
     l.innerHTML='<div class="empty"><div class="eico">📋</div><p>Nenhum jogo hoje.</p></div>';
     return;
   }
-  jogos.forEach(j => {
+   jogos.sort((a,b) => {
+    const da = a.datahora_utc ? new Date(a.datahora_utc) : new Date(a.data+'T23:59:00Z');
+    const db = b.datahora_utc ? new Date(b.datahora_utc) : new Date(b.data+'T23:59:00Z');
+    return da - db;
+   }).forEach(j => {
     const dtUTC  = utcDate(j.datahora_utc);
     const mostrar= dtUTC ? new Date()>=dtUTC : j.encerrado;
     const hrLocal= dtUTC ? fmtLocal(dtUTC) : (j.hora||'');
