@@ -1665,11 +1665,13 @@ async function renderPM() {
           <h2>Previsão enviada!</h2>
           <p>Sua Previsão Mestra está registrada e não pode ser alterada. Boa sorte! 🏆</p>
         </div>
+        ${false?`
         <div class="next-step-card">
           <div class="nst">Próximo passo</div>
           <p>Agora você pode dar palpites nos jogos. O prazo fecha <strong style="color:var(--g2)">30 min antes</strong> do início de cada jogo.</p>
         </div>
         <button class="btn btn-p" onclick="goTab('palpites',null)" style="margin-bottom:.75rem">⚽ Ir para Palpites →</button>
+        `:''}
         <div class="resumo-card">
           <div class="resumo-hdr">Sua Previsão Completa</div>
           ${camp2?`
