@@ -25,6 +25,7 @@
   --gold:   #f5c518;
   --orange: #ff7b29;
   --red:    #e03030;
+  --r2:     #ff5c5c; 
   --redlt:  rgba(224,48,48,.1);
   --bg:     #0d1f11;     /* page background — deep forest */
   --bg2:    #121e15;     /* header / nav background */
@@ -1598,6 +1599,18 @@ async function renderPM() {
       }
     } catch(e) {}
 
+    // Resultados reais já confirmados, por fase (para colorir os chips)
+    let resPE = null;
+    try {
+      const rd = await apiGet({acao:'get_resultados_pe'});
+      if (rd && rd.ok) resPE = rd;
+    } catch(e) {}
+
+    function chipBorder(team, arr) {
+      if (!team || !arr || !arr.length) return 'border:1px solid var(--border)';
+      return arr.includes(team) ? 'border:2px solid var(--g3)' : 'border:2px solid var(--r2)';
+    }
+     
     // 2) Fallback: localStorage
     if (!pmData) {
       try { pmData = JSON.parse(localStorage.getItem('pm_data_'+USER.id)||'null'); } catch(e){}
@@ -1615,36 +1628,36 @@ async function renderPM() {
       return ids.map(id => {
         const w = B2 && B2[id];
         if (!w) return '';
-        return `<span style="display:inline-flex;align-items:center;gap:.3rem;background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:.22rem .5rem;font-size:11px;font-weight:600;margin:2px">${fl(w,16,11)} ${w}</span>`;
+        return `<span style="display:inline-flex;align-items:center;gap:.3rem;background:var(--card2);${chipBorder(w,reaisArr)};border-radius:6px;padding:.22rem .5rem;font-size:11px;font-weight:600;margin:2px">${fl(w,16,11)} ${w}</span>`;
       }).filter(Boolean).join('');
     }
 
     const phases = B2 ? [
-      {lbl:'Vencedores 16 Avos de Final (Passam → Oitavas) · 2pts cada', ids:['R32_1','R32_2','R32_3','R32_4','R32_5','R32_6','R32_7','R32_8','R32_9','R32_10','R32_11','R32_12','R32_13','R32_14','R32_15','R32_16']},
-      {lbl:'Vencedores Oitavas de Final (Passam → Quartas) · 4pts cada',  ids:['R16_1','R16_2','R16_3','R16_4','R16_5','R16_6','R16_7','R16_8']},
-      {lbl:'Vencedores Quartas de Final (Passam → Semi) · 6pts cada',  ids:['QF_1','QF_2','QF_3','QF_4']},
-      {lbl:'Vencedores Semifinal (Passam → Final) · 8pts cada',         ids:['SF_1','SF_2']},
+      {lbl:'Vencedores 16 Avos de Final (Passam → Oitavas) · 2pts cada', ids:['R32_1','R32_2','R32_3','R32_4','R32_5','R32_6','R32_7','R32_8','R32_9','R32_10','R32_11','R32_12','R32_13','R32_14','R32_15','R32_16'], reaisArr: resPE && resPE.dezasseis_avos},
+      {lbl:'Vencedores Oitavas de Final (Passam → Quartas) · 4pts cada',  ids:['R16_1','R16_2','R16_3','R16_4','R16_5','R16_6','R16_7','R16_8'], reaisArr: resPE && resPE.oitavas},
+      {lbl:'Vencedores Quartas de Final (Passam → Semi) · 6pts cada',  ids:['QF_1','QF_2','QF_3','QF_4'], reaisArr: resPE && resPE.quartas},
+      {lbl:'Vencedores Semifinal (Passam → Final) · 8pts cada',         ids:['SF_1','SF_2'], reaisArr: resPE && resPE.semi},
     ] : [];
 
-    // Secção dos classificados dos grupos
     const GKEYS_ALL = ['A','B','C','D','E','F','G','H','I','J','K','L'];
     const gData = (pmData && pmData.grupos) ? pmData.grupos : (gord || null);
-      
+    const grpReais = resPE && resPE.grupos;
+
     const groupSection = gData ? (() => {
         const chips1 = GKEYS_ALL.map(g => {
           const t = gData[g]&&gData[g]['1'];
           if (!t) return '';
-          return `<span style="display:inline-flex;align-items:center;gap:.3rem;background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:.22rem .5rem;font-size:11px;font-weight:600;margin:2px">${fl(t,16,11)} ${t}</span>`;
+          return `<span style="display:inline-flex;align-items:center;gap:.3rem;background:var(--card2);${chipBorder(t,grpReais)};border-radius:6px;padding:.22rem .5rem;font-size:11px;font-weight:600;margin:2px">${fl(t,16,11)} ${t}</span>`;
         }).filter(Boolean).join('');
         const chips2 = GKEYS_ALL.map(g => {
           const t = gData[g]&&gData[g]['2'];
           if (!t) return '';
-          return `<span style="display:inline-flex;align-items:center;gap:.3rem;background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:.22rem .5rem;font-size:11px;font-weight:600;margin:2px">${fl(t,16,11)} ${t}</span>`;
+          return `<span style="display:inline-flex;align-items:center;gap:.3rem;background:var(--card2);${chipBorder(t,grpReais)};border-radius:6px;padding:.22rem .5rem;font-size:11px;font-weight:600;margin:2px">${fl(t,16,11)} ${t}</span>`;
         }).filter(Boolean).join('');
         const chips3 = GKEYS_ALL.map(g => {
           const t = gData[g]&&gData[g]['3'];
           if (!t) return '';
-          return `<span style="display:inline-flex;align-items:center;gap:.3rem;background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:.22rem .5rem;font-size:11px;font-weight:600;margin:2px">${fl(t,16,11)} ${t}</span>`;
+          return `<span style="display:inline-flex;align-items:center;gap:.3rem;background:var(--card2);${chipBorder(t,grpReais)};border-radius:6px;padding:.22rem .5rem;font-size:11px;font-weight:600;margin:2px">${fl(t,16,11)} ${t}</span>`;
         }).filter(Boolean).join('');
         let html = '';
         if (chips1) html += `<div class="resumo-hdr">Meus 1ºs dos Grupos</div><div style="padding:.4rem .65rem .5rem;display:flex;flex-wrap:wrap">${chips1}</div>`;
@@ -1655,7 +1668,7 @@ async function renderPM() {
     })() : '';
     
     const bracketSection = phases.map(f => {
-      const chips = phaseChips(f.ids);
+      const chips = phaseChips(f.ids, f.reaisArr);
       return chips ? `<div class="resumo-hdr">${f.lbl}</div><div style="padding:.4rem .65rem .5rem;display:flex;flex-wrap:wrap">${chips}</div>` : '';
     }).filter(Boolean).join('');
 
