@@ -1608,7 +1608,7 @@ async function renderPM() {
 
     function chipBorder(team, arr) {
       if (!team || !arr || !arr.length) return 'border:1px solid var(--border)';
-      return arr.includes(team) ? 'border:2px solid var(--g3)' : 'border:2px solid var(--r2)';
+      return arr.includes(team) ? 'border:2px solid var(--g3)' : 'border:2px solid var(--r2);text-decoration:line-through';
     }
      
     // 2) Fallback: localStorage
