@@ -1624,7 +1624,7 @@ async function renderPM() {
     const camp2 = B2 ? (B2['FINAL']||camp) : camp;
 
     // Helper: gera chips de vencedores por fase
-    function phaseChips(ids) {
+    function phaseChips(ids, reaisArr) {
       return ids.map(id => {
         const w = B2 && B2[id];
         if (!w) return '';
